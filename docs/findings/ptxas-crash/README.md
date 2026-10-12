@@ -8,14 +8,15 @@ reporting an error.
 
 | | |
 |---|---|
-| Tool | `ptxas` — Cuda compilation tools, release 12.9, V12.9.86 (from the `nvidia-cuda-nvcc-cu12` pip wheel, Linux x86-64) |
-| Symptom | `Segmentation fault` (exit 139) at `-O1`, `-O2`, `-O3` |
+| Tool | `ptxas` — Cuda compilation tools, release 12.9, V12.9.86 (from the `nvidia-cuda-nvcc-cu12` pip wheel) |
+| Platforms | **Linux x86-64**: `Segmentation fault`, exit 139 · **Windows x86-64**: `Internal error`, exit code -1073741819 (`0xC0000005`, access violation) |
+| Symptom | crash at `-O1`, `-O2`, `-O3` (see platforms) |
 | At `-O0` | the same file assembles without error (so the PTX is accepted as valid) |
-| Targets | reproduced for `sm_61`, `sm_75`, `sm_80`, `sm_86`, `sm_89`, `sm_90` |
+| Targets | reproduced for `sm_61`, `sm_75`, `sm_80`, `sm_86`, `sm_89`, `sm_90` (Linux); `sm_75` (Windows) |
 | Frequency | 2 out of 1,000 random KernC programs (block layout without the workaround) |
 
 A crash on valid input is a bug in the assembler regardless of what the input
-looks like. It has **not** been checked against other CUDA versions — please
+looks like. It reproduces with the same ptxas version on both Linux and Windows. It has **not** been checked against other CUDA versions — please
 re-run the commands below with your own CUDA toolkit before claiming anything
 about other versions.
 
@@ -36,7 +37,7 @@ about other versions.
 
 ```bash
 ptxas -arch=sm_75 -O0 repro_minimal.ptx -o out.cubin   # ok
-ptxas -arch=sm_75 -O3 repro_minimal.ptx -o out.cubin   # Segmentation fault on 12.9.86
+ptxas -arch=sm_75 -O3 repro_minimal.ptx -o out.cubin   # Linux: Segmentation fault / Windows: "Internal error", exit -1073741819
 
 # the original compiler output (workarounds disabled):
 kernc compile repro.kern -O1 --no-workarounds -o crash.ptx
