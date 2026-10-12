@@ -1,0 +1,12 @@
+// RUN: -O1
+// The condition folds to false, so the whole then-block disappears.
+// CHECK: st.global.u32
+// CHECK-NOT: setp
+// CHECK-NOT: bra
+// CHECK: ret;
+kernel k(i32* o) {
+    if (3 < 2) {
+        o[0] = 111;
+    }
+    o[1] = 2;
+}

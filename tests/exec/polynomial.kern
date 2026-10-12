@@ -1,0 +1,24 @@
+// p(x) = 1 + 2x + 3x^2 ;  p(2) = 17, p(-1) = 2
+// LAUNCH: kernel=poly grid=1 block=8
+// ARG: f32buf 4 values(2.0,-1.0,0.0,0.5)
+// ARG: f32buf 3 values(1.0,2.0,3.0)
+// ARG: f32buf 4 zeros
+// ARG: i32 2
+// ARG: i32 4
+// EXPECT: arg2[0] == 17.0
+// EXPECT: arg2[1] == 2.0
+// EXPECT: arg2[2] == 1.0
+// EXPECT: arg2[3] == 2.75
+// FMA-ULP: 2
+kernel poly(f32* x, f32* coef, f32* y, i32 deg, i32 n) {
+    let i = gid();
+    if (i < n) {
+        let acc = coef[deg];
+        let k = deg - 1;
+        while (k >= 0) {
+            acc = acc * x[i] + coef[k];
+            k = k - 1;
+        }
+        y[i] = acc;
+    }
+}

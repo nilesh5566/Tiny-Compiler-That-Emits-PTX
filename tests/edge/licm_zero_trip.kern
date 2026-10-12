@@ -1,0 +1,17 @@
+// A loop that runs ZERO times contains `100 / d` with d == 0. The original
+// program never divides, so it is well-defined; hoisting the (loop-invariant)
+// division into the preheader would introduce undefined behaviour.
+// LAUNCH: kernel=k grid=1 block=2
+// ARG: i32buf 2 values(7)
+// ARG: i32 0
+// ARG: i32 0
+// EXPECT: arg0[*] == 0
+kernel k(i32* o, i32 d, i32 count) {
+    let s = 0;
+    let c = 0;
+    while (c < count) {
+        s = s + 100 / d;
+        c = c + 1;
+    }
+    o[gid()] = s;
+}

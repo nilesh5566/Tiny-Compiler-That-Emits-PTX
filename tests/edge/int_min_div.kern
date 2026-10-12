@@ -1,0 +1,9 @@
+// INT_MIN / -1 overflows: undefined behaviour, the interpreters must flag it.
+// LAUNCH: kernel=k grid=1 block=1
+// ARG: i32buf 1 zeros
+// ARG: i32 -2147483648
+// ARG: i32 -1
+// EXPECT-STATUS: ub
+kernel k(i32* o, i32 a, i32 b) {
+    o[0] = a / b;
+}

@@ -1,0 +1,16 @@
+// RUN: -O0
+// CHECK: $L_wcond{{[0-9]+}}:
+// CHECK: setp.lt.s32
+// CHECK: @!{{%p[0-9]+}} bra $L_wexit
+// CHECK: add.s32
+// CHECK: bra.uni $L_wcond
+// CHECK: $L_wexit{{[0-9]+}}:
+kernel k(i32* o, i32 n) {
+    let s = 0;
+    let c = 0;
+    while (c < n) {
+        s = s + c;
+        c = c + 1;
+    }
+    o[0] = s;
+}

@@ -1,0 +1,6 @@
+// ERROR: undeclared variable 't'
+// ERROR-AT: 5:12
+kernel k(i32* o) {
+    if (true) { let t = 1; }
+    o[0] = t;
+}

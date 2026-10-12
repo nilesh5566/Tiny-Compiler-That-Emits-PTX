@@ -1,0 +1,5 @@
+// ERROR: expected '='
+// ERROR-AT: 4:8
+kernel k(i32* o) {
+    gid();
+}

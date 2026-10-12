@@ -1,0 +1,29 @@
+// else-if chains, nested loops, early return and shadowing
+// LAUNCH: kernel=k grid=2 block=32
+// ARG: i32buf 64 random(-50,50)
+// ARG: i32buf 64 zeros
+kernel k(i32* in, i32* out) {
+    let i = gid();
+    let v = in[i];
+    let r = 0;
+    if (v < -20) {
+        r = 1;
+    } else if (v < 0) {
+        r = 2;
+    } else if (v == 0) {
+        out[i] = 77;
+        return;
+    } else {
+        let a = 0;
+        while (a < 3) {
+            let b = 0;
+            while (b < a + 1) {
+                let r = 1000;     // shadows the outer r
+                b = b + 1;
+            }
+            r = r + a * v;
+            a = a + 1;
+        }
+    }
+    out[i] = r;
+}

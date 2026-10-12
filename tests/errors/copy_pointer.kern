@@ -1,0 +1,5 @@
+// ERROR: cannot copy pointer
+// ERROR-AT: 4:5
+kernel k(i32* o) {
+    let p = o;
+}

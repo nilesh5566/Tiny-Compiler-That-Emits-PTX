@@ -1,0 +1,29 @@
+// RUN: -O1
+// Regression test for the ptxas crash found by fuzzing (docs/findings/ptxas-crash).
+// With the default workarounds (reverse-post-order block layout, branch
+// threading, single exit) the PTX must be accepted by ptxas - the test harness
+// runs ptxas on every codegen test automatically.
+// CHECK: .visible .entry fuzz(
+// CHECK-NOT: ret;
+// CHECK: $L__exit:
+// CHECK-NEXT: ret;
+kernel fuzz(f32* fa, i32* ia, f32* fo, i32* io, f32 fs, i32 is, i32 n) {
+    let i = gid();
+    if (i < n) {
+        let v1 = fs;
+        let c4 = 0;
+        while (c4 < 3) {
+            let v5 = ((false && true) && (!true));
+            let c7 = 0;
+            while (c7 < 3) {
+                if ((((3 < ia[(((c4) % n + n) % n)]) || (v1 < fs)) && v5)) {
+                    if (((is < n) || v5)) { return; }
+                }
+                if ((0.1 != f32(bdim()))) {
+                }
+                c7 = c7 + 1;
+            }
+            c4 = c4 + 1;
+        }
+    }
+}

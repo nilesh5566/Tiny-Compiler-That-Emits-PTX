@@ -1,0 +1,8 @@
+// LAUNCH: kernel=k grid=3 block=5
+// ARG: i32buf 15 zeros
+// EXPECT: arg0[0] == 53
+// EXPECT: arg0[7] == 1253
+// EXPECT: arg0[14] == 2453
+kernel k(i32* o) {
+    o[gid()] = bid() * 1000 + tid() * 100 + bdim() * 10 + gdim();
+}

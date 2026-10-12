@@ -1,0 +1,5 @@
+// ERROR: is not a pointer
+// ERROR-AT: 4:12
+kernel k(i32* o, i32 n) {
+    o[0] = n[0];
+}

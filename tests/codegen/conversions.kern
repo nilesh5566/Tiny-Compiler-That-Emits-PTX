@@ -1,0 +1,10 @@
+// RUN: -O0
+// CHECK: cvt.rn.f32.s32
+// CHECK: cvt.rzi.s32.f32
+// CHECK: setp.lt.s32
+// CHECK: selp.u32 {{%r[0-9]+}}, 1, 0, {{%p[0-9]+}}
+kernel k(f32* f, i32* o, i32 n) {
+    f[0] = f32(n);
+    o[0] = i32(f[1]);
+    o[1] = i32(n < 3);
+}

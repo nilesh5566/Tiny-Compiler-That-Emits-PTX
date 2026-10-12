@@ -1,0 +1,5 @@
+// ERROR: does not fit in i32
+// ERROR-AT: 4:12
+kernel k(i32* o) {
+    o[0] = 3000000000;
+}

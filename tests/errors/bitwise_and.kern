@@ -1,0 +1,5 @@
+// ERROR: bitwise '&' is not supported
+// ERROR-AT: 4:14
+kernel k(i32* o) {
+    o[0] = 6 & 3;
+}

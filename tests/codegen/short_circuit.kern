@@ -1,0 +1,13 @@
+// RUN: -O0
+// `&&` must branch around its right operand (it could index out of bounds).
+// CHECK: setp.lt.s32
+// CHECK-NOT: ld.global
+// CHECK: @!{{%p[0-9]+}} bra $L_and_end
+// CHECK-NEXT: $L_and_rhs{{[0-9]+}}:
+// CHECK: ld.global.u32
+// CHECK: $L_and_end{{[0-9]+}}:
+kernel k(i32* a, i32* o, i32 i) {
+    if (i < 4 && a[i] > 0) {
+        o[0] = 1;
+    }
+}

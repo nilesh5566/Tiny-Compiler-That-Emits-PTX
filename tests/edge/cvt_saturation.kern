@@ -1,0 +1,18 @@
+// f32 -> i32 truncates toward zero, saturates, and maps NaN to 0 (PTX cvt.rzi semantics).
+// LAUNCH: kernel=k grid=1 block=1
+// ARG: f32buf 7 values(inf,-inf,nan,2147483520.0,2147483648.0,-2.5,0.999)
+// ARG: i32buf 7 zeros
+// EXPECT: arg1[0] == 2147483647
+// EXPECT: arg1[1] == -2147483648
+// EXPECT: arg1[2] == 0
+// EXPECT: arg1[3] == 2147483520
+// EXPECT: arg1[4] == 2147483647
+// EXPECT: arg1[5] == -2
+// EXPECT: arg1[6] == 0
+kernel k(f32* x, i32* o) {
+    let i = 0;
+    while (i < 7) {
+        o[i] = i32(x[i]);
+        i = i + 1;
+    }
+}

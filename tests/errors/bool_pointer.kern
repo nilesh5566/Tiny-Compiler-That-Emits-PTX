@@ -1,0 +1,3 @@
+// ERROR: bool pointers are not supported
+// ERROR-AT: 3:14
+kernel k(bool* o) { }

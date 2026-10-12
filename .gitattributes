@@ -1,0 +1,4 @@
+*.bat text eol=crlf
+*.sh text eol=lf
+*.kern text eol=lf
+*.ptx text eol=lf

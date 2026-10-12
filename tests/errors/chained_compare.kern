@@ -1,0 +1,5 @@
+// ERROR: cannot be chained
+// ERROR-AT: 4:19
+kernel k(i32* o) {
+    let b = 1 < 2 < 3;
+}

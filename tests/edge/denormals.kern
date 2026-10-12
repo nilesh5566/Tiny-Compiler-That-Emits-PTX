@@ -1,0 +1,13 @@
+// Subnormal floats must be preserved (no flush-to-zero).
+// LAUNCH: kernel=k grid=1 block=1
+// ARG: f32buf 1 values(1e-40)
+// ARG: f32buf 3 zeros
+// EXPECT: arg1[0] == 1e-40
+// EXPECT: arg1[1] == 0x00022d84
+// EXPECT: arg1[2] == 0x00000001
+kernel k(f32* x, f32* o) {
+    let d = x[0];
+    o[0] = d * 1.0;
+    o[1] = d + d;
+    o[2] = 1.0e-38 / 8388608.0 / 1.4;   // underflows to the smallest subnormal
+}

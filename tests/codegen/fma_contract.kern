@@ -1,0 +1,13 @@
+// RUN: -O1 --fma
+// The --fma pass fuses a*x+y into one fused multiply-add.
+// CHECK: ld.global.f32
+// CHECK-NOT: mul.rn.f32
+// CHECK: fma.rn.f32
+// CHECK-NOT: add.rn.f32
+// CHECK: st.global.f32
+kernel saxpy(f32* x, f32* y, f32 a, i32 n) {
+    let i = gid();
+    if (i < n) {
+        y[i] = a * x[i] + y[i];
+    }
+}

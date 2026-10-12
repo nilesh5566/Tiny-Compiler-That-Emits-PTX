@@ -1,0 +1,5 @@
+// ERROR: cannot store f32 into i32*
+// ERROR-AT: 4:12
+kernel k(i32* o) {
+    o[0] = 2.5;
+}

@@ -1,0 +1,5 @@
+// ERROR: cannot apply '+' to f32 and i32
+// ERROR-AT: 4:16
+kernel k(f32* o, i32 n) {
+    o[0] = 1.5 + n;
+}

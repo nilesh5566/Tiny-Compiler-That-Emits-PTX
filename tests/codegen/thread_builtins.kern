@@ -1,0 +1,11 @@
+// RUN: -O0
+// CHECK: %tid.x
+// CHECK: %ctaid.x
+// CHECK: %ntid.x
+// CHECK: %nctaid.x
+kernel k(i32* o) {
+    o[0] = tid();
+    o[1] = bid();
+    o[2] = bdim();
+    o[3] = gdim();
+}

@@ -1,0 +1,5 @@
+// ERROR: cannot apply '&&' to i32 and bool
+// ERROR-AT: 4:11
+kernel k(i32* o) {
+    if (1 && true) { }
+}

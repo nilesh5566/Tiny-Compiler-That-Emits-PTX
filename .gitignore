@@ -1,0 +1,10 @@
+build/
+fuzz_failures/
+__pycache__/
+*.pyc
+*.ptx
+*.cubin
+*.launch
+!docs/findings/**/*.ptx
+.vs/
+.vscode/

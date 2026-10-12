@@ -1,0 +1,5 @@
+// ERROR: cannot apply '%'
+// ERROR-AT: 4:16
+kernel k(f32* o) {
+    o[0] = 5.0 % 2.0;
+}

@@ -1,0 +1,14 @@
+// LAUNCH: kernel=saxpy grid=2 block=4
+// ARG: f32buf 6 values(1.0,2.0,3.0,4.0)
+// ARG: f32buf 6 values(10.0)
+// ARG: f32 2.0
+// ARG: i32 6
+// EXPECT: arg1[0] == 12.0
+// EXPECT: arg1[3] == 18.0
+// EXPECT: arg1[5] == 14.0
+kernel saxpy(f32* x, f32* y, f32 a, i32 n) {
+    let i = gid();
+    if (i < n) {
+        y[i] = a * x[i] + y[i];
+    }
+}

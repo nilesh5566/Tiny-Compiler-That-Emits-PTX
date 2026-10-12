@@ -1,0 +1,25 @@
+// RUN: -O1
+// CHECK: .version 7.0
+// CHECK: .target sm_75
+// CHECK: .visible .entry saxpy(
+// CHECK: .param .u64 saxpy_param_0
+// CHECK: .param .f32 saxpy_param_2
+// CHECK: .param .u32 saxpy_param_3
+// CHECK: cvta.to.global.u64
+// CHECK: cvta.to.global.u64
+// CHECK: mov.u32 {{%r[0-9]+}}, %ctaid.x
+// CHECK: mad.lo.s32
+// CHECK: setp.lt.s32
+// CHECK: mul.wide.s32 {{%rd[0-9]+}}, {{%r[0-9]+}}, 4
+// CHECK: ld.global.f32
+// CHECK: mul.rn.f32
+// CHECK-NOT: fma
+// CHECK: add.rn.f32
+// CHECK: st.global.f32
+// CHECK: ret;
+kernel saxpy(f32* x, f32* y, f32 a, i32 n) {
+    let i = gid();
+    if (i < n) {
+        y[i] = a * x[i] + y[i];
+    }
+}

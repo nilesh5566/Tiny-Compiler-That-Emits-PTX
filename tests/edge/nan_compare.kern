@@ -1,0 +1,20 @@
+// NaN compares unequal to everything, including itself; `!=` is TRUE.
+// LAUNCH: kernel=k grid=1 block=1
+// ARG: f32buf 2 values(nan,1.0)
+// ARG: i32buf 6 zeros
+// EXPECT: arg1[0] == 1
+// EXPECT: arg1[1] == 0
+// EXPECT: arg1[2] == 0
+// EXPECT: arg1[3] == 0
+// EXPECT: arg1[4] == 1
+// EXPECT: arg1[5] == 0
+kernel k(f32* x, i32* o) {
+    let n = x[0];
+    let one = x[1];
+    o[0] = i32(n != n);
+    o[1] = i32(n == n);
+    o[2] = i32(n < one);
+    o[3] = i32(n >= one);
+    o[4] = i32(n != one);
+    o[5] = i32(n <= n);
+}

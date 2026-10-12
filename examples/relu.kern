@@ -1,0 +1,17 @@
+// ReLU activation and its gradient mask, written with a grid-stride loop
+// so any launch size covers all n elements.
+kernel relu(f32* x, f32* y, i32* mask, i32 n) {
+    let i = gid();
+    let stride = bdim() * gdim();
+    while (i < n) {
+        let v = x[i];
+        if (v > 0.0) {
+            y[i] = v;
+            mask[i] = 1;
+        } else {
+            y[i] = 0.0;
+            mask[i] = 0;
+        }
+        i = i + stride;
+    }
+}

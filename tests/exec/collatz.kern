@@ -1,0 +1,23 @@
+// LAUNCH: kernel=collatz grid=4 block=32
+// ARG: i32buf 120 zeros
+// ARG: i32 120
+// steps for 1,2,3,...: 0,1,7,2,5,8,16,...  27 takes 111 steps
+// EXPECT: arg0[0] == 0
+// EXPECT: arg0[2] == 7
+// EXPECT: arg0[6] == 16
+// EXPECT: arg0[26] == 111
+kernel collatz(i32* steps, i32 n) {
+    let i = gid();
+    if (i >= n) { return; }
+    let x = i + 1;
+    let count = 0;
+    while (x != 1 && count < 1000) {
+        if (x % 2 == 0) {
+            x = x / 2;
+        } else {
+            x = 3 * x + 1;
+        }
+        count = count + 1;
+    }
+    steps[i] = count;
+}

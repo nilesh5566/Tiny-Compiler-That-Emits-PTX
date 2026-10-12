@@ -1,0 +1,5 @@
+// ERROR: if condition must be bool
+// ERROR-AT: 4:9
+kernel k(i32* o, i32 n) {
+    if (n) { o[0] = 1; }
+}

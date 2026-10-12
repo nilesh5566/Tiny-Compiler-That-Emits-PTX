@@ -1,0 +1,5 @@
+// ERROR: cannot apply '<' to bool and bool
+// ERROR-AT: 4:18
+kernel k(i32* o) {
+    let b = true < false;
+}

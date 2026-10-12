@@ -1,0 +1,4 @@
+// ERROR: unterminated block comment
+// ERROR-AT: 3:20
+kernel k(i32* o) { /* never closed
+}

@@ -1,0 +1,9 @@
+// RUN: -O0
+// bool == bool is xor + not on predicates
+// CHECK: xor.pred
+// CHECK-NEXT: not.pred
+kernel k(i32* o, i32 a, i32 b) {
+    let x = a < b;
+    let y = b < a;
+    o[0] = i32(x == y);
+}

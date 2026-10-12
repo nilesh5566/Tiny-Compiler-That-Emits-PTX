@@ -1,0 +1,5 @@
+// ERROR: cannot convert bool to f32
+// ERROR-AT: 4:12
+kernel k(f32* o) {
+    o[0] = f32(true);
+}

@@ -1,0 +1,18 @@
+// INT_MIN, INT_MAX, 0, +-1 ... through every integer operator (divisors kept safe).
+// LAUNCH: kernel=k grid=2 block=32
+// ARG: i32buf 64 special
+// ARG: i32buf 64 special
+// ARG: i32buf 384 zeros
+kernel k(i32* a, i32* b, i32* o) {
+    let i = gid();
+    let x = a[i];
+    let y = b[i];
+    let d = y % 13;
+    if (d == 0 || d == -1) { d = 3; }
+    o[i * 6] = x + y;
+    o[i * 6 + 1] = x - y;
+    o[i * 6 + 2] = x * y;
+    o[i * 6 + 3] = x / d;
+    o[i * 6 + 4] = x % d;
+    o[i * 6 + 5] = -x + i32(f32(x) < f32(y));
+}

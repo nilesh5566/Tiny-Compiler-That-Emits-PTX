@@ -1,0 +1,18 @@
+// LAUNCH: kernel=k grid=1 block=4
+// ARG: i32buf 4 zeros
+// sum over a<10, b<a, c<b of 1  = C(10,3) = 120
+// EXPECT: arg0[*] == 120
+kernel k(i32* o) {
+    let s = 0;
+    let a = 0;
+    while (a < 10) {
+        let b = 0;
+        while (b < a) {
+            let c = 0;
+            while (c < b) { s = s + 1; c = c + 1; }
+            b = b + 1;
+        }
+        a = a + 1;
+    }
+    o[gid()] = s;
+}

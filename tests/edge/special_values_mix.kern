@@ -1,0 +1,19 @@
+// Random mix of NaN, inf, +-0, subnormals and huge values through every operator.
+// LAUNCH: kernel=k grid=2 block=32
+// ARG: f32buf 64 special
+// ARG: f32buf 64 special
+// ARG: f32buf 320 zeros
+// ARG: i32buf 192 zeros
+kernel k(f32* a, f32* b, f32* o, i32* c) {
+    let i = gid();
+    let x = a[i];
+    let y = b[i];
+    o[i * 5] = x + y;
+    o[i * 5 + 1] = x - y;
+    o[i * 5 + 2] = x * y;
+    o[i * 5 + 3] = x / y;
+    o[i * 5 + 4] = -x;
+    c[i * 3] = i32(x < y) + 2 * i32(x == y) + 4 * i32(x != y);
+    c[i * 3 + 1] = i32(x <= y) + 2 * i32(x >= y) + 4 * i32(x > y);
+    c[i * 3 + 2] = i32(x);
+}

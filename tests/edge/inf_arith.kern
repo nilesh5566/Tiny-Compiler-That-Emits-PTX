@@ -1,0 +1,14 @@
+// LAUNCH: kernel=k grid=1 block=1
+// ARG: f32buf 1 values(inf)
+// ARG: f32buf 4 zeros
+// EXPECT: arg1[0] == nan
+// EXPECT: arg1[1] == nan
+// EXPECT: arg1[2] == inf
+// EXPECT: arg1[3] == 0.0
+kernel k(f32* x, f32* o) {
+    let inf = x[0];
+    o[0] = inf - inf;
+    o[1] = 0.0 * inf;
+    o[2] = inf + 1.0e38;
+    o[3] = 1.0 / inf;
+}

@@ -1,0 +1,13 @@
+// out[r] = sum of row r of a rows x cols matrix (one thread per row)
+kernel sum_rows(f32* m, f32* out, i32 rows, i32 cols) {
+    let r = gid();
+    if (r < rows) {
+        let acc: f32 = 0.0;
+        let c = 0;
+        while (c < cols) {
+            acc = acc + m[r * cols + c];
+            c = c + 1;
+        }
+        out[r] = acc;
+    }
+}

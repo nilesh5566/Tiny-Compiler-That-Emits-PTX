@@ -1,0 +1,12 @@
+// i32 -> f32 rounds to nearest-even: 2^24 + 1 is not representable.
+// LAUNCH: kernel=k grid=1 block=1
+// ARG: i32buf 3 values(16777217,16777219,2147483647)
+// ARG: f32buf 3 zeros
+// EXPECT: arg1[0] == 16777216.0
+// EXPECT: arg1[1] == 16777220.0
+// EXPECT: arg1[2] == 2147483648.0
+kernel k(i32* x, f32* o) {
+    o[0] = f32(x[0]);
+    o[1] = f32(x[1]);
+    o[2] = f32(x[2]);
+}

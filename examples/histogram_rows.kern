@@ -1,0 +1,17 @@
+// Per-thread histogram of 8 buckets over one row of values in [0, 1).
+// (No atomics in Kern, so each thread owns its own 8-bucket slice.)
+kernel hist_rows(f32* data, i32* hist, i32 rows, i32 cols) {
+    let r = gid();
+    if (r >= rows) { return; }
+    let b = 0;
+    while (b < 8) { hist[r * 8 + b] = 0; b = b + 1; }
+    let c = 0;
+    while (c < cols) {
+        let v = data[r * cols + c];
+        let bucket = i32(v * 8.0);
+        if (bucket < 0) { bucket = 0; }
+        if (bucket > 7) { bucket = 7; }
+        hist[r * 8 + bucket] = hist[r * 8 + bucket] + 1;
+        c = c + 1;
+    }
+}

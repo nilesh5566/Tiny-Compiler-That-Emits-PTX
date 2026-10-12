@@ -1,0 +1,5 @@
+// ERROR: unexpected character '@'
+// ERROR-AT: 4:14
+kernel k(i32* o) {
+    o[0] = 1 @ 2;
+}

@@ -1,0 +1,14 @@
+// copy propagation must notice that the copy source changed
+// LAUNCH: kernel=k grid=1 block=4
+// ARG: i32buf 4 values(5,6,7,8)
+// ARG: i32buf 8 zeros
+// EXPECT: arg1[0] == 5
+// EXPECT: arg1[1] == 6
+kernel k(i32* in, i32* out) {
+    let i = gid();
+    let s = in[i];
+    let t = s;       // t is a copy of s
+    s = s + 1;       // s changes, t must not
+    out[i * 2] = t;
+    out[i * 2 + 1] = s;
+}

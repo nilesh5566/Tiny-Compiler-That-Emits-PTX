@@ -1,0 +1,23 @@
+// LAUNCH: kernel=mandelbrot grid=8 block=64
+// ARG: i32buf 480 zeros
+// ARG: i32 24
+// ARG: i32 20
+// ARG: i32 50
+kernel mandelbrot(i32* iters, i32 width, i32 height, i32 max_iter) {
+    let p = gid();
+    if (p >= width * height) { return; }
+    let px = p % width;
+    let py = p / width;
+    let cx = -2.0 + 3.0 * f32(px) / f32(width);
+    let cy = -1.2 + 2.4 * f32(py) / f32(height);
+    let x = 0.0;
+    let y = 0.0;
+    let k = 0;
+    while (k < max_iter && x * x + y * y <= 4.0) {
+        let xt = x * x - y * y + cx;
+        y = 2.0 * x * y + cy;
+        x = xt;
+        k = k + 1;
+    }
+    iters[p] = k;
+}

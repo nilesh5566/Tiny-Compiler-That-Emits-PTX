@@ -1,0 +1,24 @@
+// Results computed at compile time (-O1) must match run time (-O0) exactly.
+// LAUNCH: kernel=k grid=1 block=1
+// ARG: i32buf 8 zeros
+// ARG: f32buf 4 zeros
+// EXPECT: arg0[0] == -3
+// EXPECT: arg0[1] == -1
+// EXPECT: arg0[2] == -2147483648
+// EXPECT: arg0[3] == 3
+// EXPECT: arg0[4] == -3
+// EXPECT: arg0[5] == 2147483647
+// EXPECT: arg0[6] == 2
+// EXPECT: arg0[7] == -20
+// EXPECT: arg1[0] == 0.1
+kernel k(i32* o, f32* f) {
+    o[0] = -7 / 2;                 // truncates toward zero
+    o[1] = -7 % 2;
+    o[2] = 2147483647 + 1;         // wraps
+    o[3] = i32(3.99);              // truncates
+    o[4] = i32(-3.99);
+    o[5] = i32(1.0e20);            // saturates
+    o[6] = 9 - 7;                  // operand order
+    o[7] = 5 * -4;                 // must not become a shift
+    f[0] = 1.0 / 10.0;
+}

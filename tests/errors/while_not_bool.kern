@@ -1,0 +1,5 @@
+// ERROR: while condition must be bool
+// ERROR-AT: 4:12
+kernel k(i32* o) {
+    while (1.0) { }
+}

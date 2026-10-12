@@ -1,0 +1,20 @@
+// i32 arithmetic wraps (two's complement); this is DEFINED in Kern, unlike C.
+// LAUNCH: kernel=k grid=1 block=1
+// ARG: i32buf 6 zeros
+// ARG: i32 2147483647
+// ARG: i32 65536
+// EXPECT: arg0[0] == -2147483648
+// EXPECT: arg0[1] == 2147483647
+// EXPECT: arg0[2] == 0
+// EXPECT: arg0[3] == -2147479015
+// EXPECT: arg0[4] == -2147483648
+// EXPECT: arg0[5] == -2
+kernel k(i32* o, i32 max, i32 big) {
+    let min = max + 1;
+    o[0] = min;
+    o[1] = min - 1;
+    o[2] = big * big;
+    o[3] = 46341 * 46341;
+    o[4] = -min;
+    o[5] = max * 2;
+}

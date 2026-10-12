@@ -1,0 +1,21 @@
+// Only 2 x 16 = 32 threads cover 100 elements via a grid-stride loop.
+// LAUNCH: kernel=relu grid=2 block=16
+// ARG: f32buf 100 random(-5,5)
+// ARG: f32buf 100 zeros
+// ARG: i32buf 100 values(-1)
+// ARG: i32 100
+kernel relu(f32* x, f32* y, i32* mask, i32 n) {
+    let i = gid();
+    let stride = bdim() * gdim();
+    while (i < n) {
+        let v = x[i];
+        if (v > 0.0) {
+            y[i] = v;
+            mask[i] = 1;
+        } else {
+            y[i] = 0.0;
+            mask[i] = 0;
+        }
+        i = i + stride;
+    }
+}

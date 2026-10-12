@@ -1,0 +1,5 @@
+// ERROR: operator '!' needs bool
+// ERROR-AT: 4:9
+kernel k(i32* o) {
+    if (!1) { }
+}

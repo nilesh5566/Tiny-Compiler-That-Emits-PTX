@@ -1,0 +1,18 @@
+// -0.0 is a distinct bit pattern: negating must flip the sign bit, and
+// 1 / -0.0 is -inf. (Lowering -x as 0.0 - x would give +0.0 here.)
+// LAUNCH: kernel=k grid=1 block=1
+// ARG: f32buf 1 values(0.0)
+// ARG: f32buf 3 zeros
+// ARG: i32buf 1 zeros
+// EXPECT: arg1[0] == 0x80000000
+// EXPECT: arg1[1] == -inf
+// EXPECT: arg1[2] == 0x80000000
+// EXPECT: arg2[0] == 1
+kernel k(f32* x, f32* o, i32* eq) {
+    let z = x[0];
+    let nz = -z;
+    o[0] = nz;
+    o[1] = 1.0 / nz;
+    o[2] = -0.0;
+    eq[0] = i32(nz == z);      // -0.0 == +0.0 is true
+}

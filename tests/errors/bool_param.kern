@@ -1,0 +1,3 @@
+// ERROR: cannot be bool
+// ERROR-AT: 3:18
+kernel k(i32* o, bool flag) { }

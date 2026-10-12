@@ -1,0 +1,21 @@
+// Copy of a variable that is later reassigned, where the variable is a
+// parameter / defined in an earlier block (copy propagation must not
+// forward the copy to the NEW value).
+// LAUNCH: kernel=k grid=1 block=4
+// ARG: i32buf 8 zeros
+// ARG: i32 10
+// ARG: i32buf 4 values(1,0,1,0)
+// EXPECT: arg0[0] == 10
+// EXPECT: arg0[1] == 11
+kernel k(i32* out, i32 a, i32* flags) {
+    let i = gid();
+    let s = 0;
+    if (flags[i] == 1) { s = 5; }
+    let t = a;
+    a = a + 1;
+    let u = s;
+    s = s + 100;
+    out[i * 2] = t;
+    out[i * 2 + 1] = a + u * 0;
+    if (i == 3) { out[7] = u + s; }
+}

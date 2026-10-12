@@ -1,0 +1,16 @@
+// CSE must not reuse x*y after x changes.
+// LAUNCH: kernel=k grid=1 block=8
+// ARG: i32buf 8 range
+// ARG: i32buf 24 zeros
+kernel k(i32* in, i32* out) {
+    let i = gid();
+    let x = in[i];
+    let y = x + 3;
+    let a = x * y;
+    x = x + 1;
+    let b = x * y;
+    let c = x * y;
+    out[i * 3] = a;
+    out[i * 3 + 1] = b;
+    out[i * 3 + 2] = c;
+}

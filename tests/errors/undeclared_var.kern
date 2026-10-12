@@ -1,0 +1,5 @@
+// ERROR: use of undeclared variable 'x'
+// ERROR-AT: 4:12
+kernel k(i32* o) {
+    o[0] = x;
+}

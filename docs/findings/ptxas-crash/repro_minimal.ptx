@@ -1,0 +1,30 @@
+.version 7.0
+.target sm_75
+.address_size 64
+.visible .entry fuzz(
+    .param .u32 fuzz_param_0
+)
+{
+    .reg .pred  %p<4>;
+    .reg .b32   %r<6>;
+    ld.param.u32 %r1, [fuzz_param_0];
+    setp.lt.s32 %p1, %r1, 5;
+    setp.lt.s32 %p2, %r1, 7;
+    setp.lt.s32 %p3, %r1, 9;
+    mov.u32 %r2, 0;
+    @!%p1 bra $L_endif17;
+    bra.uni $L_or_rhs18;
+$L_endif17:
+    @%p3 bra $L_then23;
+    bra.uni $L_endif24;
+$L_or_rhs18:
+    @!%p2 bra $L_endif21;
+    ret;
+$L_endif21:
+    bra.uni $L_endif17;
+$L_then23:
+$L_endif24:
+    add.s32 %r3, %r2, %r1;
+    mov.u32 %r2, %r3;
+    ret;
+}

@@ -1,0 +1,5 @@
+// ERROR: cannot negate bool
+// ERROR-AT: 4:13
+kernel k(i32* o) {
+    let b = -true;
+}

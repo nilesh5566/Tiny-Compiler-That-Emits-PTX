@@ -1,0 +1,15 @@
+// LAUNCH: kernel=k grid=1 block=8
+// ARG: i32buf 8 range
+// ARG: i32buf 8 zeros
+// EXPECT: arg1[3] == 2
+// EXPECT: arg1[2] == 2
+// EXPECT: arg1[4] == 0
+kernel k(i32* in, i32* out) {
+    let i = gid();
+    let v = in[i];
+    let r = 0;
+    if (v <= 3) { r = r + 1; }
+    if (v >= 2) { r = r + 1; }
+    if (v > 3) { r = r - 1; }
+    out[i] = r;
+}

@@ -1,0 +1,6 @@
+// RUN: -O1
+// Folding -(0.0) must give -0.0 (0x80000000), not +0.0.
+// CHECK: mov.f32 {{%f[0-9]+}}, 0f80000000
+kernel k(f32* o) {
+    o[0] = -0.0;
+}

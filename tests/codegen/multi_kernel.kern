@@ -1,0 +1,7 @@
+// RUN: -O1
+// CHECK: .visible .entry first(
+// CHECK: ret;
+// CHECK: .visible .entry second(
+// CHECK: ret;
+kernel first(i32* o) { o[0] = 1; }
+kernel second(f32* o) { o[0] = 2.0; }

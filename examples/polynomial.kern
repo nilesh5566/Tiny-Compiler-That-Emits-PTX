@@ -1,0 +1,13 @@
+// Horner evaluation of a degree-(deg) polynomial at every x[i].
+kernel poly(f32* x, f32* coef, f32* y, i32 deg, i32 n) {
+    let i = gid();
+    if (i < n) {
+        let acc = coef[deg];
+        let k = deg - 1;
+        while (k >= 0) {
+            acc = acc * x[i] + coef[k];
+            k = k - 1;
+        }
+        y[i] = acc;
+    }
+}

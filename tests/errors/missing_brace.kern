@@ -1,0 +1,4 @@
+// ERROR: missing '}'
+// ERROR-AT: 5:1
+kernel k(i32* o) {
+    o[0] = 1;

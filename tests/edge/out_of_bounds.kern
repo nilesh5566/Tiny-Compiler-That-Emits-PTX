@@ -1,0 +1,7 @@
+// More threads than elements and no bounds check -> undefined behaviour.
+// LAUNCH: kernel=k grid=1 block=8
+// ARG: i32buf 5 zeros
+// EXPECT-STATUS: ub
+kernel k(i32* o) {
+    o[gid()] = 1;
+}

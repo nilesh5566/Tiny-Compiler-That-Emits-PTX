@@ -1,0 +1,17 @@
+// LAUNCH: kernel=sum_rows grid=2 block=32
+// ARG: f32buf 1280 random(-1,1)
+// ARG: f32buf 64 zeros
+// ARG: i32 64
+// ARG: i32 20
+kernel sum_rows(f32* m, f32* out, i32 rows, i32 cols) {
+    let r = gid();
+    if (r < rows) {
+        let acc: f32 = 0.0;
+        let c = 0;
+        while (c < cols) {
+            acc = acc + m[r * cols + c];
+            c = c + 1;
+        }
+        out[r] = acc;
+    }
+}

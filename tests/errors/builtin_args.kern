@@ -1,0 +1,5 @@
+// ERROR: takes no arguments
+// ERROR-AT: 4:12
+kernel k(i32* o) {
+    o[0] = gid(1);
+}

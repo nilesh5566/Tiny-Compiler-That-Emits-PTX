@@ -1,0 +1,4 @@
+// ERROR: duplicate kernel 'k'
+// ERROR-AT: 4:1
+kernel k(i32* o) { }
+kernel k(i32* o) { }

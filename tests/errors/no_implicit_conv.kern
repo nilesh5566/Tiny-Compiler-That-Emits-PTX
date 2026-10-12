@@ -1,0 +1,6 @@
+// ERROR: no implicit conversions
+// ERROR-AT: 4:20
+kernel k(f32* o) {
+    let acc: f32 = 0;
+    o[0] = acc;
+}

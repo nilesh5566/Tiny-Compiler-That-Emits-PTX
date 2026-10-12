@@ -1,0 +1,12 @@
+// f32 division by zero is fine: IEEE gives +-inf or NaN.
+// LAUNCH: kernel=k grid=1 block=1
+// ARG: f32buf 3 zeros
+// EXPECT: arg0[0] == inf
+// EXPECT: arg0[1] == -inf
+// EXPECT: arg0[2] == nan
+kernel k(f32* o) {
+    let z = o[0];
+    o[0] = 1.0 / z;
+    o[1] = -1.0 / z;
+    o[2] = z / z;
+}

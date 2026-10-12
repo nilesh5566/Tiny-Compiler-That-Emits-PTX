@@ -1,0 +1,6 @@
+// ERROR: cannot assign f32 to 'a'
+// ERROR-AT: 5:9
+kernel k(i32* o) {
+    let a = 1;
+    a = 2.0;
+}

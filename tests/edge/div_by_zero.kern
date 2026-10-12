@@ -1,0 +1,8 @@
+// LAUNCH: kernel=k grid=1 block=4
+// ARG: i32buf 4 values(5,0,7,1)
+// ARG: i32buf 4 zeros
+// EXPECT-STATUS: ub
+kernel k(i32* d, i32* o) {
+    let i = gid();
+    o[i] = 100 % d[i];
+}

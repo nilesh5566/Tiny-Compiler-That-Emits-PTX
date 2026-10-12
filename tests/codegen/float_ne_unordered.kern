@@ -1,0 +1,10 @@
+// RUN: -O0
+// `x != y` must be TRUE when either side is NaN, so it needs the
+// unordered comparison setp.neu, not setp.ne (which is false for NaN).
+// CHECK: setp.neu.f32
+// CHECK-NOT: setp.ne.f32
+// CHECK: setp.eq.f32
+kernel k(f32* x, i32* o) {
+    o[0] = i32(x[0] != x[1]);
+    o[1] = i32(x[0] == x[1]);
+}

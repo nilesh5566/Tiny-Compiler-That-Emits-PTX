@@ -1,0 +1,8 @@
+// RUN: -O1
+// x*8 becomes a shift; x*-8 must NOT (shift by 3 would drop the sign).
+// CHECK: shl.b32 {{%r[0-9]+}}, {{%r[0-9]+}}, 3
+// CHECK: mul.lo.s32
+kernel k(i32* o, i32 x) {
+    o[0] = x * 8;
+    o[1] = x * -8;
+}
