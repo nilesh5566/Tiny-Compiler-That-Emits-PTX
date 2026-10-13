@@ -967,4 +967,4 @@ More Windows-specific help: [docs/INSTALL_WINDOWS.md](docs/INSTALL_WINDOWS.md#tr
 
 MIT. See [LICENSE](LICENSE).
 
-**Author:** Nilesh Kumar Nayak — M.Tech (IT), IIIT Allahabad
+**Author:** Nilesh Kumar Nayak
